@@ -37,7 +37,7 @@ public class KinoVerwaltungV1test2 {
 
         } while (userBudget < ticketPrice);
 
-        int movieChoice; //choice of Movie
+        int movieChoice; // user choice of Movie
 
         ArrayList<Integer> chosenMovies = new ArrayList<>(); // Arraylist of Chosen Movie
 
