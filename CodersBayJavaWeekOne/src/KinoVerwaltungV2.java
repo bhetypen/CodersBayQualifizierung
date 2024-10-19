@@ -1,25 +1,10 @@
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class KinoVerwaltungV2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        final String adminEntry = "adminSecretEntry1234";
-//        final String savedUserName = "admin";
-//        final String savedPassword = "admin1234";
-//
-//        String userName = "";
-//        String userPassword = "";
-//
-//        do {
-//            while (!userName.equals(savedUserName)) {
-//                System.out.println("Enter your username remember it's case sensitive: ");
-//                userName = scanner.nextLine();
-//            }
-//            System.out.println("Enter your password remember it's case sensitive: ");
-//            userPassword = scanner.nextLine();
-//        } while (!userPassword.equals(savedPassword));
+        final String adminEntry = "admin1234";
+        final int pin = 5555;
 
         String[][] cinemaData = {
                 {"1", "Batman", "20:15", "1", "14.00 ", "5"},
@@ -49,7 +34,7 @@ public class KinoVerwaltungV2 {
 
         while (!transactionCompleted) {
 
-            System.out.println("Filmnr   Filmname        Uhrzeit    Saal     Preis    Restplätze");
+            System.out.println("\nFilmnr   Filmname        Uhrzeit    Saal     Preis    Restplätze");
             System.out.println("--------------------------------------------------------------");
 
             String ticketStatus;
@@ -68,7 +53,7 @@ public class KinoVerwaltungV2 {
                 System.out.printf("%-8s %-15s %-10s %-8s %-8s %-10s\n",
                         cinemaDatum[0] + ".", cinemaDatum[1], cinemaDatum[2], cinemaDatum[3], cinemaDatum[4], ticketStatus);
             }
-            System.out.println("--------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------------\n");
 
             System.out.println("Wie viel Geld hast du dabei? Bitte gib einen positiven Betrag ein: ");
             userInput = sc.nextLine();
@@ -78,11 +63,26 @@ public class KinoVerwaltungV2 {
                 System.out.println("  ** Welcome to admin page! **");
                 System.out.println("-----------------------------------");
 
+                System.out.println("\nEnter your 4 digit pin code");
+
+                int pinCode = 0;
+
+                while (pinCode != pin) {
+                    pinCode = sc.nextInt();
+
+                    if (pinCode == pin) {
+                        System.out.println("Log in Successful!\n");
+                    } else {
+                        System.out.println("Please try again. Enter your 4 digit pin code.");
+                    }
+                }
+
+
                 char adminEdit;
                 boolean isAdmin = false;
 
                 do {
-                    System.out.println("Do you want to edit something the movie Details enter y/n");
+                    System.out.println("Do you want to edit a Movie? Enter [y/n]?");
                     adminEdit = sc.next().charAt(0);
 
                     sc.nextLine();
@@ -94,8 +94,18 @@ public class KinoVerwaltungV2 {
                 }
 
                 while (isAdmin) {
+                    //admin view of the cinema board
+                    System.out.printf("\n%-12s %-20s %-10s %-6s %-10s %-15s%n",
+                            "Film Number", "Movie Title", "Time", "Hall", "Price", "Available Seats");
+                    System.out.println("----------------------------------------------------------------------");
 
-                    System.out.println("Which movie would you like to edit");
+                    for (String[] movie : cinemaData) {
+                        System.out.printf("%-12s %-20s %-10s %-6s %-10s %-18s%n",
+                                movie[0], movie[1], movie[2], movie[3], movie[4], movie[5]);
+                    }
+                    System.out.println("----------------------------------------------------------------------\n");
+
+                    System.out.println("Which movie would you like to edit? Choose from 1 to " + cinemaData.length);
                     int movieID = sc.nextInt();
 
                     //edge case warning for movieID
@@ -107,7 +117,7 @@ public class KinoVerwaltungV2 {
 
                     //if movieID is within the range
                     if (movieID >= 0 && movieID <= cinemaData.length) {
-                        System.out.println("You chose Film Number " + movieID + "\n");
+                        System.out.println("You are about to edit Film Number " + movieID + "\n");
 
 
                         Object[] movieDetails = cinemaData[movieID - 1];
@@ -123,7 +133,7 @@ public class KinoVerwaltungV2 {
 
 
                         do {
-                            System.out.println("Please Choose which movie Details would you like to edit (Enter between 1 to 6, z.B. 1 for Movie Title)");
+                            System.out.println("Please Choose which movie details would you like to edit (Enter between 1 to 5, z.B. 1 for Movie Title).");
                             movieDetailsToEdit = sc.nextInt();
 
 
@@ -147,12 +157,12 @@ public class KinoVerwaltungV2 {
 
                                 case 4:
                                     System.out.println("Enter the Movie Ticket Price");
-                                    cinemaData[movieID - 1][4] = sc.next();
+                                    cinemaData[movieID - 1][4] = String.format(Locale.US, "%.2f", Double.parseDouble(sc.next()));;
                                     break;
 
                                 case 5:
-                                    System.out.println("Enter the available Seats");
-                                    cinemaData[movieID - 1][4] = sc.next();
+                                    System.out.println("Enter the available Seats:");
+                                    cinemaData[movieID - 1][5] = sc.next();
                                     break;
 
                                 default:
@@ -162,21 +172,19 @@ public class KinoVerwaltungV2 {
 
                             System.out.println("You successfully edited Film number " + movieDetailsToEdit + ": " + Arrays.deepToString(cinemaData[movieID - 1]));
 
-                        } while (movieDetailsToEdit <= 0 || movieDetailsToEdit > 5 );
 
+                        } while (movieDetailsToEdit <= 0 || movieDetailsToEdit > 5);
 
-                        System.out.println("Do you want to edit more");
+                        System.out.println("Do you want to edit more movie details [y/n]");
                         adminEdit = sc.next().charAt(0);
 
-
-
-                        sc.nextLine(); // added to consume the leftover newline character after next()
+                        sc.nextLine(); // added to consume the leftover newline character after next
 
                         if (adminEdit == 'n') {
+                            System.out.println("Exiting the admin page...\n");
                             isAdmin = false;
                         }
                     }
-
 
                 }
 
@@ -187,14 +195,11 @@ public class KinoVerwaltungV2 {
             boolean isNumber = true;
             boolean foundDecimal = false;
 
-
             for (int i = 0; i < userInput.length() && isNumber; i++) {
 
-                if (userInput.charAt(i) >= '0' && userInput.charAt(i) <= '9') {
-                    isNumber = true;
+                if (userInput.charAt(i) >= '0' && userInput.charAt(i) <= '9') { //alternative checking (Character.isDigit(userInput.charAt(i)))
                 } else if (userInput.charAt(i) == '.' && !foundDecimal) {
                     foundDecimal = true;
-                    isNumber = true;
                 } else {
                     isNumber = false;
                 }
