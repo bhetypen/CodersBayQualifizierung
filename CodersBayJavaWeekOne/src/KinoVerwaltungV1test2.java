@@ -29,13 +29,15 @@ public class KinoVerwaltungV1test2 {
                     System.out.println("Ihr Geld reicht nicht aus, ein Ticket kostet " + ticketPrice + "€.");
                 } else if (userBudget <= 0) {
                     System.out.println("Sie haben eine ungültige Nummer eingegeben.");
+                } else if (userBudget > 500) {
+                    System.out.println("Für eine einmalige Transaktion akzeptieren wir nur bis zu 500 Euro.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Ungültige Eingabe. Bitte gib eine gültige Zahl ein.");
                 sc.next();
             }
 
-        } while (userBudget < ticketPrice);
+        } while (userBudget < ticketPrice || userBudget > 500);
 
         int movieChoice; // user choice of Movie
 
