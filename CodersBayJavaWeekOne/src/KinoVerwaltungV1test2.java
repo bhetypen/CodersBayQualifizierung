@@ -21,21 +21,18 @@ public class KinoVerwaltungV1test2 {
         //User can only input more than the price of the ticket
         do {
             System.out.println("Wie viel Geld hast du dabei? Bitte gib einen positiven Betrag ein: ");
-            try {
-                userBudget = sc.nextInt();
 
-                //warning when the user enters an invalid number
-                if (userBudget < ticketPrice && userBudget > 0) {
-                    System.out.println("Ihr Geld reicht nicht aus, ein Ticket kostet " + ticketPrice + "€.");
-                } else if (userBudget <= 0) {
-                    System.out.println("Sie haben eine ungültige Nummer eingegeben.");
-                } else if (userBudget > 500) {
-                    System.out.println("Für eine einmalige Transaktion akzeptieren wir nur bis zu 500 Euro.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Ungültige Eingabe. Bitte gib eine gültige Zahl ein.");
-                sc.next();
+            userBudget = sc.nextInt();
+
+            //warning when the user enters an invalid number
+            if (userBudget < ticketPrice && userBudget > 0) {
+                System.out.println("Ihr Geld reicht nicht aus, ein Ticket kostet " + ticketPrice + "€.");
+            } else if (userBudget <= 0) {
+                System.out.println("Sie haben eine ungültige Nummer eingegeben.");
+            } else if (userBudget > 500) {
+                System.out.println("Für eine einmalige Transaktion akzeptieren wir nur bis zu 500 Euro.");
             }
+
 
         } while (userBudget < ticketPrice || userBudget > 500);
 
