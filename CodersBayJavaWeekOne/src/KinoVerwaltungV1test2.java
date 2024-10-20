@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class KinoVerwaltungV1test2 {
@@ -16,7 +15,7 @@ public class KinoVerwaltungV1test2 {
         };
 
         //User Budget Input
-        int userBudget = 0;
+        int userBudget;
 
         //User can only input more than the price of the ticket
         do {
