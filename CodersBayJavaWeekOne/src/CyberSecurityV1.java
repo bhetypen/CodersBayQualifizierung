@@ -4,24 +4,24 @@ public class CyberSecurityV1 {
     public static void main(String[] args) {
         Random r = new Random();
 
-        char [] allowedCharacter = "ABCDabcd012!".toCharArray();
+        char [] allowedCharacter = "ABCabc012!".toCharArray();
 
-        int charLength = (allowedCharacter.length); //length of the allowedCharacter Array
+        int charArrayLength = (allowedCharacter.length); //length of the allowedCharacter Array
 
-        int passwordLength = 5; //random password fix length (for variable length i will add min and max)
-
-
+        int passwordLength = 4; //random password fix length (for variable length i will add min and max value)
+        
         int passwordMatches = 0;
         int totalGuess = 0;
         int highestAmountofGuess = 0;
 
-        int possibleGuesses = (int) Math.pow(charLength, passwordLength);
-        int leastAmountofGuess = possibleGuesses + 1;
+        // permutations formula if repetition is allowed base N raised to r where N is the charArrayLength and r is the passworLength
+        int possibleGuesses = (int) Math.pow(charArrayLength, passwordLength); 
+        int leastAmountofGuess = possibleGuesses + 1; // set it to one higher than possible guesses
 
 
 
         for (int i = 0; i < 10; i++) { //for variable length password i = min value and i < max value
-            int [] indexArr = new int[passwordLength]; // here is the i for current password length
+            int [] indexArr = new int[passwordLength]; // for variable length password here is the i for current password length
             StringBuilder password = new StringBuilder();
 
             //to generate a fixed length character password
@@ -32,28 +32,32 @@ public class CyberSecurityV1 {
 
             System.out.println("\nPassword to Match: " +password);
 
-
             boolean isFound = false;
-
 
             for (int x = 0 ; (x < possibleGuesses) && !isFound ; x++) {
 
-                //based N guessing the password raise to the power of passwordLength UnitsPlace starts at 10° = 1;
+                int divisor = 1; // I start at N° = 1 this is at Units Place divison
+
+                //// Loop through each position of the password (right to left), simulating base-N counting (where N = charArrayLength)
                 for(int position = 0; position < passwordLength; position++)
                 {
-                    indexArr[position] = (int) ((x / (Math.pow(charLength, position))) % charLength);
+                    //indexArr[position] = (int) ((x / (Math.pow(charArrayLength, position))) % charArrayLength); // alternative way.
+                    indexArr[position] = (x / divisor) % charArrayLength;
+                    divisor *= charArrayLength;
                 }
-//                int index1 = x % charLength;
-//                int index2 = (x / charLength) % charLength;
-//                int index3 = (int) ((x / (Math.pow(charLength, 2))) % charLength);
-//                int index4 = (int) ((x / (Math.pow(charLength, 3))) % charLength); //u.s.w ...
+//                int index1 = x % charArrayLength;
+//                int index2 = (x / charArrayLength) % charArrayLength;
+//                int index3 = (int) ((x / (Math.pow(charArrayLength, 2))) % charArrayLength);
+//                int index4 = (int) ((x / (Math.pow(charArrayLength, 3))) % charArrayLength); //u.s.w ...
 
+                //simplified way of building the string of the guessPassword
                 StringBuilder guessPassword = new StringBuilder();
                 for(int positions = passwordLength-1; positions >= 0 ; positions--)
                 {
                     guessPassword.append(allowedCharacter[indexArr[positions]]);
                     // concatenated version guessPassword += String.valueOf(allowedCharacter[indexArr[positions]]);
                 }
+
 //                String guessPassword = String.valueOf(allowedCharacter[index4]) +
 //                        allowedCharacter[index3] +
 //                        allowedCharacter[index2] +
