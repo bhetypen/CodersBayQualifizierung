@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class KinoVerwaltungV2Version2 {
+public class KinoVerwaltungV2FinalVersion {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         final String adminEntry = "admin1234";
