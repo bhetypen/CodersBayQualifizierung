@@ -5,7 +5,7 @@ public class KinoVerwaltungV2Version2 {
         Scanner sc = new Scanner(System.in);
         final String adminEntry = "admin1234";
         final int pin = 5555;
-        final int sweepstakePrice = 5;
+        final int rafflePrice = 5;
 
         String[][] cinemaData = {
                 {"1", "Batman", "20:15", "1", "14.25 ", "5"},
@@ -17,9 +17,8 @@ public class KinoVerwaltungV2Version2 {
 
         ArrayList<Integer> chosenMovies = new ArrayList<>(); //array list of bought tickets
 
-
         double cheapestTicketPrice = 1000; //initialize with a high value so that it won't affect the comparison on the loop
-        double ticketPrice;
+        double ticketPrice; //price of cinema Tickets
         int ticketAvailable;
 
         //to determine the cheapest movie but exclude the fully booked ones
@@ -214,7 +213,7 @@ public class KinoVerwaltungV2Version2 {
 
 
                 // Check if the amount is positive
-                if (userBudget > 0 && userBudget > cheapestTicketPrice) {
+                if (userBudget >= rafflePrice ) {
 
 
                     boolean menuOption = false; //to exit from menuOption
@@ -236,7 +235,7 @@ public class KinoVerwaltungV2Version2 {
                         System.out.println("\nIhr aktuelles Guthaben: " + String.format(Locale.US, "%.2f", Double.parseDouble(userInput)) + " €");
 
                         System.out.println("Geben Sie eine Zahl zwischen 1 und 4 ein: ( z.B. 1 für Ticket kaufen)");
-                        int userChoice;
+                        int userChoice; // choice of the user from the Menu Options
 
 
                         do {
@@ -245,7 +244,7 @@ public class KinoVerwaltungV2Version2 {
 
                             if (userChoice == 1 && Double.parseDouble(userInput) < cheapestTicketPrice) {
 
-                                System.out.println("Derzeit Guthaben: " + userInput + "\nDerzeit günstigstes Kinoticket: " + cheapestTicketPrice);
+                                System.out.println("Derzeit Guthaben: " + Double.parseDouble(userInput) + "\nDerzeit günstigstes Kinoticket: " + cheapestTicketPrice);
                                 System.out.println("Geben Sie eine Zahl zwischen 2 und 4 ein: ( z.B. 2 für Film Ansehen)");
                                 userChoice = 0;
 
@@ -260,6 +259,7 @@ public class KinoVerwaltungV2Version2 {
 
 
                         switch (userChoice) {
+
                             //ticket kaufen choice
                             case 1:
 
@@ -308,7 +308,7 @@ public class KinoVerwaltungV2Version2 {
                                         ticketPrice = Double.parseDouble(cinemaData[movieChoice - 1][4]);
                                         ticketAvailable = Integer.parseInt(cinemaData[movieChoice - 1][cinemaData[0].length - 1]); // to update the current ticket Availability
 
-                                        System.out.println("ticketAvailable: " + ticketAvailable);
+                                        //System.out.println("ticketAvailable: " + ticketAvailable);
 
                                         if (userBudget < ticketPrice) {
                                             System.out.println("Sie haben nicht genug Guthaben für diesen Film. Der Ticketpreis ist " + ticketPrice + "€, und Sie haben nur " + String.format("%.2f", userBudget) + "€.");
@@ -355,30 +355,30 @@ public class KinoVerwaltungV2Version2 {
                                                 totalTicketCost = ticketCount * ticketPrice;
                                                 userBudget -= totalTicketCost; //update the remaining user Budget
 
-                                                System.out.println("Sie kaufen " + ticketCount + " Tickets um " + totalTicketCost + "€ und hast jetzt noch " + userBudget + "€.");
+                                                System.out.println("Sie kaufen " + ticketCount + " Tickets um " + totalTicketCost + "€ und hast jetzt noch " + String.format(Locale.US, "%.2f", userBudget) + "€.");
                                             }
                                         }
 
                                     }
-                                    //shows the actual user Credit and the movies Chosen
 
+                                    //shows the actual user Credit and the movies Chosen
                                     System.out.println("==========================");
                                     System.out.println("Aktuelles Guthaben: " + String.format(Locale.US, "%.2f", userBudget) + "€");
                                     System.out.println("Gekaufter Tickets: " + chosenMovies);
                                     System.out.println("==========================\n");
 
 
-                                    if (userBudget >= sweepstakePrice && userBudget < cheapestTicketPrice) {
+                                    if (userBudget >= rafflePrice && userBudget < cheapestTicketPrice) {
 
                                         System.out.println("Ihr Budget reicht nicht aus, um das günstigste Ticket zu kaufen, das kostet " + cheapestTicketPrice +
-                                                "€.\nAber Sie können für " + sweepstakePrice + "€ an gewinnspiel teilnehmen."
+                                                "€.\nAber Sie können für " + rafflePrice + "€ an gewinnspiel teilnehmen."
                                         );
 
                                         movieChoice = 0;
 
                                     }
 
-                                    if (userBudget < sweepstakePrice) {
+                                    if (userBudget < rafflePrice) {
                                         System.out.println(" Sie haben nicht genug Guthaben für weiteren Einkauf.\n Vielen Dank für den Ticketkauf. Ticketverkauf endet..");
                                         movieChoice = 0;
                                     }
@@ -415,6 +415,7 @@ public class KinoVerwaltungV2Version2 {
                                                 ticketsBought++;
                                             }
                                         }
+
 
                                         if (ticketsBought > 0) {
 
@@ -475,15 +476,90 @@ public class KinoVerwaltungV2Version2 {
 
                             //raffle section
                             case 3:
-                                if (userBudget > sweepstakePrice) {
-                                    System.out.println("Welcome to Kinoplex case 3 Gewinnspiel");
+
+                                if (userBudget > rafflePrice) {
+                                    int raffleChoice = 1;
+
+                                    while (raffleChoice != 0) {
+
+                                        do {
+                                            System.out.println(" *** Welcome to Kinoplex Gewinnspiel ***");
+                                            System.out.println("-----------------------------------------");
+                                            System.out.println("Möchten Sie an unserem Gewinnspiel teilnehmen.? \n1. Teilnehmen\n2. Das Gewinnspiel beenden ");
+                                            System.out.println("\nGeben Sie 1 oder 2 ein");
+                                            raffleChoice = sc.nextInt();
+
+                                            if (raffleChoice < 1 || raffleChoice > 2) {
+                                                System.out.println("Ungültige Eingabe, bitte geben Sie nur 1 oder 2 ein\n");
+                                            }
+
+                                            if (raffleChoice == 2) {
+                                                System.out.println("\nVielen Dank für Ihren Besuch bei Kinoplex Gewinnspiel");
+                                                raffleChoice = 0;
+                                            }
+
+                                            if (raffleChoice == 1) {
+
+                                                userBudget = userBudget - rafflePrice;
+
+                                                Random rand = new Random();
+
+                                                int luckyNumber = 0;
+
+                                                for (int i = 0; i < 200; i++) {
+                                                    luckyNumber = rand.nextInt(201);
+                                                }
+
+                                                System.out.println("Du machst beim Gewinnspiel mit!\n" +
+                                                        "Deine Glückszahl ist: " + luckyNumber + "\n");
+
+                                                int a = 1;
+                                                int b = 1;
+                                                int fibonacciNummer = 0;
+                                                int counter = 10; //fibonnaci less than 200 is 144
+                                                boolean isMatch = false;
+
+                                                for (int i = 0 ; i < counter && !isMatch; i++) {
+                                                    fibonacciNummer = a + b;
+                                                    System.out.println( a + " " + "+ " + b + " " + "= " +fibonacciNummer);
+                                                    //System.out.println(fibonacciNummer);
+                                                    a = b;
+                                                    b = fibonacciNummer;
+
+                                                    if (fibonacciNummer == luckyNumber) {
+                                                        isMatch = true;
+                                                        System.out.println(luckyNumber + " ist eine Fibonacci-Nummer! Du gewinnst 20€!");
+                                                        userBudget = userBudget + 20;
+
+                                                    }
+                                                }
+
+                                                System.out.println("\nWenn er kein Glück hatte, kostet ihn das 5€ für das Lotterielos (sein Geldbetrag wird also -5€ gerechnet).");
+                                                System.out.println("Derzeit Guthaben: " + userBudget + " €\n");
+
+                                                if (userBudget < rafflePrice) {
+                                                    raffleChoice = 0;
+                                                    System.out.println("Derzeit Guthaben: " + userBudget);
+                                                    System.out.println("Das aktuelle Guthaben reicht nicht zum Spielen. Danke fürs Spielen.");
+                                                }
+
+                                            }
+
+                                        } while (raffleChoice < 0 || raffleChoice > 2);
+
+                                    }
+
+
                                 }
+
+                                userInput = String.valueOf(userBudget);
                                 break;
 
                             //exit area
                             case 4:
-                                System.out.println("Vielen Dank für Ihren Besuch bei Kinoplex. Wir wünschen Ihnen einen schönen Tag. ");
+                                System.out.println("\nVielen Dank für Ihren Besuch bei Kinoplex. Wir wünschen Ihnen einen schönen Tag. ");
                                 menuOption = true;
+                                userBudget = 0;
                                 //userInput = String.valueOf(0);
                                 break;
 
@@ -493,8 +569,10 @@ public class KinoVerwaltungV2Version2 {
 
                     } while (!menuOption); // end of menu Option
 
-                } else if (userBudget < cheapestTicketPrice && userBudget > 0) {
-                    System.out.println("Das günstigste Ticket ist:: " + cheapestTicketPrice + ". Geben Sie einen ausreichenden Betrag ein.");
+                } else if (userBudget < rafflePrice && userBudget > 0) {
+                    System.out.println("Gewinnspiel Preis: "+ (double) rafflePrice +" €");
+                    System.out.println("Das günstigste Ticket ist: " + cheapestTicketPrice + " €");
+                    System.out.println("Der von Ihnen eingegebene Betrag reicht nicht zur Teilnahme an unserem Gewinnspiel oder Ticketankauf.  \nGeben Sie einen ausreichenden Betrag ein.\n");
                 } else {
                     System.out.println("Bitte geben Sie einen gültigen Betrag ein.");
                 }
