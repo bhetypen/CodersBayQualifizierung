@@ -213,7 +213,7 @@ public class KinoVerwaltungV2Version2 {
 
 
                 // Check if the amount is positive
-                if (userBudget >= rafflePrice ) {
+                if (userBudget >= rafflePrice) {
 
 
                     boolean menuOption = false; //to exit from menuOption
@@ -249,10 +249,10 @@ public class KinoVerwaltungV2Version2 {
                                 userChoice = 0;
 
                             } else if (userChoice > 4) {
-                                System.out.println("Please enter a valid Choice, We only have 4 Choices");
+                                System.out.println("\nBitte geben Sie eine gültige Auswahl ein. Wir haben nur 4 Auswahlmöglichkeiten");
 
                             } else if (userChoice < 1) {
-                                System.out.println("Please enter a valid Choice, We only have 4 Choices)");
+                                System.out.println("\nBitte geben Sie eine gültige Zahl zwischen 1 und 4 ein: ");
                             }
 
                         } while ((userChoice < 1 || userChoice > 4));
@@ -337,7 +337,7 @@ public class KinoVerwaltungV2Version2 {
                                                         System.out.println("Sie haben mehr Tickets eingegeben, als verfügbar sind.");
                                                     } else if (totalTicketCost > userBudget) {
                                                         System.out.println(
-                                                                "Gesamtkosten von " + ticketCount + " Tickets: " + totalTicketCost + "\nSie haben nur " + String.format("%.2f", userBudget) +
+                                                                "Gesamtkosten von " + (double) ticketCount + " Tickets: " + totalTicketCost + "\nSie haben nur " + String.format("%.2f", userBudget) +
                                                                         "€. Sie können nur noch " + ticketsWithinBudget + " Tickets kaufen. Bitte geben Sie eine geringere Anzahl an Tickets ein."
                                                         );
                                                     }
@@ -393,89 +393,98 @@ public class KinoVerwaltungV2Version2 {
 
                             case 2: //To Show Movie Tickets
 
-                                int selectedFilmToWatch; //the movie that the user will watch
+                                if (chosenMovies.isEmpty()) {
+                                    System.out.println("Sie haben keine Kinokarten, bitte kaufen Sie zuerst");
+                                } else {
 
-                                ArrayList<String> scheduledMovies = new ArrayList<>(); //movies chosen to be watch alone or with Friends
+                                    int selectedFilmToWatch; //the movie that the user will watch
+
+                                    ArrayList<String> scheduledMovies = new ArrayList<>(); //movies chosen to be watch alone or with Friends
 
 
-                                do {
-                                    System.out.println("Liste der Filme, die Sie gekauft haben:");
-                                    System.out.println("............................................................");
+                                    do {
+                                        System.out.println("Liste der Filme, die Sie noch haben:");
+                                        System.out.println("............................................................");
 
-                                    // just to show the chosenMovies in tabular way
-                                    for (int i = 0; i < cinemaData.length; i++) {
+                                        // just to show the chosenMovies in tabular way
+                                        for (int i = 0; i < cinemaData.length; i++) {
 
-                                        int filmNumber = Integer.parseInt(cinemaData[i][0]);
-                                        String movieTitle = cinemaData[i][1];
+                                            int filmNumber = Integer.parseInt(cinemaData[i][0]);
+                                            String movieTitle = cinemaData[i][1];
 
-                                        int ticketsBought = 0;
+                                            int ticketsBought = 0;
 
-                                        for (int chosenMovie : chosenMovies) {
-                                            if (chosenMovie == filmNumber) {
-                                                ticketsBought++;
+                                            for (int chosenMovie : chosenMovies) {
+                                                if (chosenMovie == filmNumber) {
+                                                    ticketsBought++;
+                                                }
                                             }
-                                        }
 
 
-                                        if (ticketsBought > 0) {
+                                            if (ticketsBought > 0) {
 
-                                            System.out.println("Filmnr: " + filmNumber + " | Movie Titel: " + movieTitle + " | Ticketsanzahl: " + ticketsBought + ".");
-                                            System.out.println("............................................................");
-                                        }
-
-                                    }
-
-                                    System.out.println("\nWelchen Film (für den du noch ein Ticket hast) möchtest du sehen? (0 für abbrechen)\n");
-                                    selectedFilmToWatch = sc.nextInt();
-
-
-                                    if (chosenMovies.contains(selectedFilmToWatch)) {
-
-                                        int remainingTickets = 0;
-                                        for (int i = 0; i < chosenMovies.size(); i++) {
-                                            if (chosenMovies.get(i) == selectedFilmToWatch) {
-                                                remainingTickets++;
+                                                System.out.println("Filmnr: " + filmNumber + " | Movie Titel: " + movieTitle + " | Ticketsanzahl: " + ticketsBought + ".");
+                                                System.out.println("............................................................");
                                             }
+
                                         }
 
-                                        if (remainingTickets > 0) {
-                                            System.out.println("You have " + remainingTickets + " ticket(s) for Filmnr " + selectedFilmToWatch);
+                                        System.out.println("\nWelchen Film (für den du noch ein Ticket hast) möchtest du sehen? (0 für abbrechen)\n");
+                                        selectedFilmToWatch = sc.nextInt();
 
-                                            System.out.println("Wie viele Tickets wird sie nutzen");
-                                            int ticketsToWatch = sc.nextInt(); //to ask user how many tickets he will use in one time viewing.
 
-                                            if (ticketsToWatch > remainingTickets) {
-                                                System.out.println("You have only " + remainingTickets + " ticket(s) for Filmnr " + selectedFilmToWatch);
-                                            } else {
-                                                for (int i = 0; i < ticketsToWatch; i++) {
-                                                    chosenMovies.remove(Integer.valueOf(selectedFilmToWatch));
-                                                    scheduledMovies.add(String.valueOf(cinemaData[selectedFilmToWatch - 1][1]));
+                                        if (chosenMovies.contains(selectedFilmToWatch)) {
+
+                                            int remainingTickets = 0;
+                                            for (int i = 0; i < chosenMovies.size(); i++) {
+                                                if (chosenMovies.get(i) == selectedFilmToWatch) {
+                                                    remainingTickets++;
+                                                }
+                                            }
+
+                                            if (remainingTickets > 0) {
+                                                System.out.println("You have " + remainingTickets + " ticket(s) for Filmnr " + selectedFilmToWatch);
+
+                                                System.out.println("Wie viele Tickets wird sie nutzen");
+                                                int ticketsToWatch = sc.nextInt(); //to ask user how many tickets he will use in one time viewing.
+
+                                                if (ticketsToWatch > remainingTickets) {
+                                                    System.out.println("You have only " + remainingTickets + " ticket(s) for Filmnr " + selectedFilmToWatch);
+                                                } else {
+                                                    for (int i = 0; i < ticketsToWatch; i++) {
+                                                        chosenMovies.remove(Integer.valueOf(selectedFilmToWatch));
+                                                        scheduledMovies.add(String.valueOf(cinemaData[selectedFilmToWatch - 1][1]));
+                                                    }
+
+                                                    remainingTickets -= ticketsToWatch;
+                                                    System.out.println("You now have " + remainingTickets + " ticket(s) left for Filmnr " + selectedFilmToWatch);
                                                 }
 
-                                                remainingTickets -= ticketsToWatch;
-                                                System.out.println("You now have " + remainingTickets + " ticket(s) left for Filmnr " + selectedFilmToWatch);
+
+                                            } else {
+                                                System.out.println("Sie haben keine Tickets mehr für Filmnr: " + selectedFilmToWatch);
                                             }
 
+                                            System.out.println("\nDu schaust dir den Film " + scheduledMovies + " an. Viel Spaß!");
 
-                                        } else {
-                                            System.out.println("Sie haben keine Tickets mehr für Filmnr: " + selectedFilmToWatch);
+                                            if (chosenMovies.isEmpty()) {
+                                                System.out.println("Keine weiteren Kinotickets zum Auschecken.");
+                                                selectedFilmToWatch = 0;
+                                            }
+
                                         }
 
-                                        System.out.println("\nDu schaust dir den Film " + scheduledMovies + " an. Viel Spaß!");
-
-                                        if (chosenMovies.isEmpty()) {
-                                            System.out.println("Keine weiteren Kinotickets zum Auschecken.");
-                                            selectedFilmToWatch = 0;
-                                        }
-
-                                    }
-
-                                } while (selectedFilmToWatch != 0);
-
+                                    } while (selectedFilmToWatch != 0);
+                                } // end of else
                                 break;
 
                             //raffle section
                             case 3:
+
+                                if (userBudget < rafflePrice) {
+                                    System.out.println("Gewinnspiel Preis: " + rafflePrice);
+                                    System.out.println("Dein Guthaben ist leider nicht genug.");
+                                }
 
                                 if (userBudget > rafflePrice) {
                                     int raffleChoice = 1;
@@ -519,9 +528,9 @@ public class KinoVerwaltungV2Version2 {
                                                 int counter = 10; //fibonnaci less than 200 is 144
                                                 boolean isMatch = false;
 
-                                                for (int i = 0 ; i < counter && !isMatch; i++) {
+                                                for (int i = 0; i < counter && !isMatch; i++) {
                                                     fibonacciNummer = a + b;
-                                                    System.out.println( a + " " + "+ " + b + " " + "= " +fibonacciNummer);
+                                                    System.out.println(a + " " + "+ " + b + " " + "= " + fibonacciNummer);
                                                     //System.out.println(fibonacciNummer);
                                                     a = b;
                                                     b = fibonacciNummer;
@@ -535,11 +544,11 @@ public class KinoVerwaltungV2Version2 {
                                                 }
 
                                                 System.out.println("\nWenn er kein Glück hatte, kostet ihn das 5€ für das Lotterielos (sein Geldbetrag wird also -5€ gerechnet).");
-                                                System.out.println("Derzeit Guthaben: " + userBudget + " €\n");
+                                                System.out.println("Derzeit Guthaben: " +  String.format("%.2f",userBudget) + " €\n");
 
                                                 if (userBudget < rafflePrice) {
                                                     raffleChoice = 0;
-                                                    System.out.println("Derzeit Guthaben: " + userBudget);
+                                                    System.out.println("Derzeit Guthaben: " +  String.format("%.2f",userBudget));
                                                     System.out.println("Das aktuelle Guthaben reicht nicht zum Spielen. Danke fürs Spielen.");
                                                 }
 
@@ -548,7 +557,6 @@ public class KinoVerwaltungV2Version2 {
                                         } while (raffleChoice < 0 || raffleChoice > 2);
 
                                     }
-
 
                                 }
 
@@ -570,13 +578,12 @@ public class KinoVerwaltungV2Version2 {
                     } while (!menuOption); // end of menu Option
 
                 } else if (userBudget < rafflePrice && userBudget > 0) {
-                    System.out.println("Gewinnspiel Preis: "+ (double) rafflePrice +" €");
+                    System.out.println("Gewinnspiel Preis: " + (double) rafflePrice + " €");
                     System.out.println("Das günstigste Ticket ist: " + cheapestTicketPrice + " €");
                     System.out.println("Der von Ihnen eingegebene Betrag reicht nicht zur Teilnahme an unserem Gewinnspiel oder Ticketankauf.  \nGeben Sie einen ausreichenden Betrag ein.\n");
                 } else {
                     System.out.println("Bitte geben Sie einen gültigen Betrag ein.");
                 }
-
 
             } //end if(isNumber)
 
