@@ -337,7 +337,7 @@ public class KinoVerwaltungV2Version2 {
                                                         System.out.println("Sie haben mehr Tickets eingegeben, als verfügbar sind.");
                                                     } else if (totalTicketCost > userBudget) {
                                                         System.out.println(
-                                                                "Gesamtkosten von " + (double) ticketCount + " Tickets: " + totalTicketCost + "\nSie haben nur " + String.format("%.2f", userBudget) +
+                                                                "Gesamtkosten von " + String.format("%.2f",(double)ticketCount) + " Tickets: " + totalTicketCost + "\nSie haben nur " + String.format("%.2f", userBudget) +
                                                                         "€. Sie können nur noch " + ticketsWithinBudget + " Tickets kaufen. Bitte geben Sie eine geringere Anzahl an Tickets ein."
                                                         );
                                                     }
