@@ -3,8 +3,8 @@ import java.util.*;
 public class KinoVerwaltungV2FinalVersion {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        final String adminEntry = "admin1234";
-        final int pin = 5555;
+        final String adminEntry = "admin1234"; //special entry for the admin
+        final int pin = 5555; //admin pin code
         final int rafflePrice = 5;
 
         String[][] cinemaData = {
