@@ -1,16 +1,21 @@
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 public class MineSweeperV1Version1 {
-
+    //private static final char[][] hiddenMap = new char[10][10];
     public static void main(String[] args) {
         Random rand = new Random();
         Scanner sc = new Scanner(System.in);
 
-        int [][] map = new int[10][10];
-        int mineCount = 0;
+        int[][] map = new int[10][10];
+        char [][] hiddenMap = new char[10][10];
+        int numberOfTries = 0; //it will count the user input
+        int mineCount = 0; //for counting the mines
+        char hiddenChar = ' ';
 
+        // populating the map with -3 to 0
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 map[i][j] = rand.nextInt(4) - 3;
@@ -18,53 +23,81 @@ public class MineSweeperV1Version1 {
                 if (map[i][j] == 0) {
                     mineCount++;
                 }
+                hiddenMap[i][j] = hiddenChar; // to hide the random numbers
             }
         }
 
-        System.out.println("For Debugging Purposes");
-        System.out.println("    ");
-        for (char label = 'A'; label <= 'J'; label++) {
-            System.out.print("   " + label +  "   " );
+        //for comparison of the input
+        String[][] charArr = new String[10][10];
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                charArr[i][j] = String.valueOf((char) (i + 65)) + String.valueOf((char) (j + 48)); //i use ascii values
+            }
         }
-        System.out.println();
+
+        boolean gameOn = true;
+        String playerMove = "";
+
+        while (gameOn) {
+
+            System.out.println("    ");
+            for (char label = 'A'; label <= 'J'; label++) {
+                System.out.print("     " + label + " ");
+            }
+            System.out.println();
+
+            for (int i = 0; i < 10 ; i++) {
+                System.out.print(i + " ");
+                for (int j = 0; j < 10; j++) {
+                    System.out.print(" [ " + hiddenMap[i][j] + " ] ");
+                }
+                System.out.println();
+            }
+
+            double minePercentage = ( (double) numberOfTries / (100 - mineCount)) * 100 ;
+            System.out.println("\nDu hast " +numberOfTries + "/" + mineCount + " (" + String.format("%.1f", minePercentage) + "%) des nicht verminten Gebiets auf Minen gecheckt");
+            System.out.println("Es bleiben noch " + mineCount + " Minen versteckt.");
+
+            System.out.println("\nWo willst du nach Minen suchen? z.B. A0,  B1 usw...: ");
+            playerMove = sc.nextLine();
+            numberOfTries++;
 
 
-        for (int i = 0; i < map.length; i++) {
-
-            for (int j = 0; j < map[i].length; j++) {
-                if (map[i][j] == 0) {
-                    System.out.print("[  "  +  map[i][j]  + " ]" + " ");
-                } else {
-                    System.out.print("[ "  + map[i][j]  + " ]" + " ");
+            //checking the user Input ... alternative to charAt
+            int row = 0;
+            int col = 0;
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    if (Objects.equals(charArr[i][j], playerMove)) {
+                        col = i;
+                        row = j;
+                    }
                 }
             }
-            System.out.println();
-        }
 
+            System.out.println("User input: " + row + "/" + col);
 
-        System.out.println("\nMine Count: " + mineCount+ "\n");
+            if (map[row][col] == 0) {
+                System.out.println("Das... war eine Mine. Du hast leider verloren.");
+                hiddenMap[row][col] = '*';
+                gameOn = false;
 
-        char userMove = sc.next().charAt(0);
+                for (int i = 0; i < 10; i++) {
+                    System.out.print(i + " ");
+                    for (int j = 0; j < 10; j++) {
 
-        System.out.println("    ");
-        for (char label = 'A'; label <= 'J'; label++) {
-            System.out.print("   " + label +  "   " );
-        }
-        System.out.println();
+                        System.out.print(" [ " + hiddenMap[i][j] + " ] ");
+                    }
 
-        for (int i = 0; i < map.length; i++) {
+                    System.out.println();
+                }
 
-            for (int j = 0; j < map[i].length; j++) {
-                System.out.println("[ ]");
+            } else {
+                hiddenMap[row][col] = '-';
+                mineCount--;
             }
-            System.out.println();
+
         }
-
-
-
-
-
-
-
     }
 }
