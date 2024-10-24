@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,87 +8,187 @@ public class ZahlenRatenVersion1 {
         Scanner sc = new Scanner(System.in);
         Random rand = new Random();
 
-        System.out.println("\n***** ZahlenRatenSpiel *****");
-
-
         String isBigger = "Großer! Die geheime Zahl ist größer.\n";
         String isSmaller = "Kleiner! Die geheime Zahl ist kleiner.\n";
         String isCorrect = "Erraten! Deine Antwort ist korrekt.\n";
 
 
-        int levelChoice  = 100;
+        int levelChoice = 100;
 
         while (levelChoice != 0) {
 
-            ystem.out.println """
-                
-                Wähle, welches Level du spielen möchtest. Gib eine Zahl zwischen 1 und 3 ein, 0 0 zum Beenden des Spiels.
-            
-                0. Spiel Beenden
-                1. Level One
-                2. Level Two
-                3. Level Three
-             
-                """;
-
-            S(menu);
+            System.out.println("\n***** ZahlenRatenSpiel *****");
+            System.out.println("""
+                    Wähle, welches Level du spielen möchtest. Gib eine Zahl zwischen 1 und 3 ein, 0 0 zum Beenden des Spiels.
+                                        
+                    0. Spiel Beenden
+                    1. Level One
+                    2. Level Two
+                    3. Level Three
+                    """);
 
             System.out.println("Geben Sie Ihre Auswahl ein. z.B. (1 für Level 1): ");
             levelChoice = sc.nextInt();
 
             switch (levelChoice) {
+
                 case 1:
 
-                     System.out.println("Du spielst Level 1\n");
-                     int secretNumber = rand.nextInt(101);
+                    boolean stillPlaying = true;
+                    int numberOfTries = 9; //total number of tries
 
-                     System.out.println(secretNumber);
+                    while (stillPlaying && numberOfTries > 0) { //to reloop if the player decides to play again
 
-                     int guessAttempt = 9;
-                     boolean levelOne = false;
+                        boolean gameOn = true;
+                        int secretNumber = 10;
+                        int userGuess = 20;
 
-                     while(guessAttempt != 0 && !levelOne) {
-                         System.out.println("Errate die versteckte Zahl.");
-                         int userGuess = sc.nextInt();
-                         guessAttempt--;
+                        System.out.println("***** ZahlenRatenSpiel Level 1 *****\n");
+                        secretNumber = rand.nextInt(101);
 
-                         if (secretNumber > userGuess) {
-                             System.out.println(isBigger);
+                        while (gameOn) {
 
-                         } else if (secretNumber < userGuess) {
-                             System.out.println(isSmaller);
-                         } else {
-                             System.out.println(isCorrect);
-                             System.out.println("Möchtest du noch spielen? [y/n]");
-                             char answer = sc.next().charAt(0);
+                            System.out.println(secretNumber);
 
+                            if (numberOfTries != 0) {
 
+                                do {
+                                    System.out.println("\nErrate die versteckte Zahl. (1-100) ");
+                                    userGuess = sc.nextInt();
 
-                                 if (answer == 'y') {
-                                     guessAttempt = 9;
-                                 } else if (answer == 'n'){
-                                     levelOne = true;
-                                 } else {
-                                     System.out.println("Invalid input");
-                                 }
+                                    if (userGuess < 0 || userGuess > 100) {
+                                        System.out.println("\nUngültige Zahl. Zahl von 1 bis 100 eingeben:");
+                                    }
+
+                                } while (userGuess < 0 || userGuess > 100);
 
 
-                         }
-
-                         System.out.println("Verbleibende Anzahl von Versuchen: " + guessAttempt + "\n");
-
-                         if (guessAttempt == 0) {
-                             System.out.println("Versuche: "+ guessAttempt + " - Du hast keine Versuche mehr.. Du hast das Spiel verloren. Bis zum nächsten Mal!");
-                         }
-                     }
+                                if (secretNumber == userGuess) {
+                                    System.out.println("You guessed correctly!");
 
 
+                                    System.out.println("Do you want to play again [y][n]");
+                                    char playAgain = sc.next().charAt(0);
+
+                                    if (playAgain == 'n') {
+                                        System.out.println("Thank you for playing!");
+                                        stillPlaying = false;
+                                        gameOn = false;
+                                    } else if (playAgain == 'y') {
+                                        gameOn = false;
+                                    }
+
+                                } else if (secretNumber != userGuess) {
+
+                                    if (secretNumber > userGuess) {
+                                        System.out.println(isBigger);
+                                        numberOfTries--;
+
+                                    } else if (secretNumber < userGuess) {
+                                        System.out.println(isSmaller);
+                                        numberOfTries--;
+                                    }
+
+                                    if (numberOfTries > 0) {
+                                        System.out.println("Your remaining chance to guess: " + numberOfTries);
+                                    } else {
+                                        System.out.println("You already exhausted Your chance, See you next time.");
+                                    }
+                                }
+
+                            } else {
+                                gameOn = false;
+                            }
+                        }
+                    }
 
                     break;
+
                 case 2:
+                    System.out.println("Du spielst Level 2\n");
+
+
                     break;
+
+
                 case 3:
+
+                    System.out.println("\n***** ZahlenRatenSpiel Level 3 *****\n");
+
+                    //int numberToGuess = rand.nextInt(101);
+                    boolean playerTurn = rand.nextBoolean();
+
+                    int numberToGuess = rand.nextInt(101);
+
+                    boolean guessed = false;
+
+                    int lowerBound = 0; // the lower Side to compute the median
+                    int higherBound = 101; //the Upper Side +1 So that KI can still guess if random is 100.
+                    int userGuess;
+                    int kiGuess;
+
+                    //System.out.println(numberToGuess);
+
+//                    String feedbackHigher = "The number to guess is higher than your guess";
+//                    String feedbackLower = "The number to guess is lower than your guess";
+
+                    ArrayList<Integer> listOfGuesses = new ArrayList<>();
+
+                    while (!guessed) {
+
+                        System.out.println(listOfGuesses);
+
+                        if (playerTurn) {
+                            System.out.println("Make your guess");
+                            userGuess = sc.nextInt();
+
+                            if (numberToGuess == userGuess) {
+                                System.out.println("Player 1: Your guess was correct");
+                                guessed = true;
+
+                            } else if (numberToGuess > userGuess) {
+
+                                if (userGuess > lowerBound) {
+                                    lowerBound = userGuess + 1;
+                                }
+
+                                System.out.println(isBigger);
+
+                            } else if (numberToGuess < userGuess) {
+                                if (userGuess < higherBound) {
+                                    higherBound = userGuess - 1;
+                                }
+                                System.out.println(isSmaller);
+                            }
+
+                            listOfGuesses.add(userGuess);
+
+                        } else {
+
+                            kiGuess = (lowerBound + higherBound) / 2;
+                            listOfGuesses.add(kiGuess);
+                            System.out.println("It's KI turn: " + kiGuess);
+
+                            if (numberToGuess > kiGuess) {
+                                lowerBound = kiGuess + 1;
+                                System.out.println(isBigger);
+
+                            } else if (numberToGuess < kiGuess) {
+                                higherBound = kiGuess - 1;
+                                System.out.println(isSmaller);
+
+                            } else if (numberToGuess == kiGuess) {
+                                System.out.println("KI, " + isCorrect);
+                                listOfGuesses.add(kiGuess);
+                                guessed = true;
+                            }
+                        }
+
+                        playerTurn = !playerTurn;
+                    }
+
                     break;
+
                 default:
             }
 
