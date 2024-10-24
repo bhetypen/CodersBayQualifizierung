@@ -32,11 +32,11 @@ public class CyberSecurityV1 {
 
             System.out.println("\nPassword to Match: " +password);
 
-            boolean isFound = false;
+            boolean isFound = false; //to terminate the loop when guess is found
 
             for (int x = 0 ; (x < possibleGuesses) && !isFound ; x++) {
 
-                int divisor = 1; // I start at N° = 1 this is at Units Place divison
+                int divisor = 1; // I start at N° = 1 this is at Units Place divisor
 
                 //// Loop through each position of the password (right to left), simulating base-N counting (where N = charArrayLength)
                 for(int position = 0; position < passwordLength; position++)
@@ -52,7 +52,7 @@ public class CyberSecurityV1 {
 
                 //simplified way of building the string of the guessPassword
                 StringBuilder guessPassword = new StringBuilder();
-                for(int positions = passwordLength-1; positions >= 0 ; positions--)
+                for(int positions = passwordLength - 1; positions >= 0 ; positions--)
                 {
                     guessPassword.append(allowedCharacter[indexArr[positions]]);
                     // concatenated version guessPassword += String.valueOf(allowedCharacter[indexArr[positions]]);

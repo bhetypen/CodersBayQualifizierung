@@ -7,15 +7,17 @@ public class ZahlenRatenLevel3 {
         Scanner sc = new Scanner(System.in);
         Random rand = new Random();
 
-        int numberToGuess = rand.nextInt(101);
+        //int numberToGuess = rand.nextInt(101);
         boolean playerTurn = rand.nextBoolean();
+
+        int numberToGuess = 100;
 
         boolean guessed = false;
 
-        int lowerBound = 0;
-        int higherBound = 100;
-        int userGuess = 0 ;
-        int kiGuess = 50;
+        int lowerBound = 0; // the lower Side to compute the median
+        int higherBound = 101; //the Upper Side +1 So that KI can still guess if random is 100.
+        int userGuess;
+        int kiGuess;
 
         //System.out.println(numberToGuess);
 
@@ -24,27 +26,27 @@ public class ZahlenRatenLevel3 {
 
         ArrayList<Integer> listOfGuesses = new ArrayList<>();
 
-        while(!guessed) {
+        while (!guessed) {
 
 
             System.out.println(listOfGuesses);
 
-            if(playerTurn) {
+            if (playerTurn) {
                 System.out.println("Make your guess");
                 userGuess = sc.nextInt();
 
-                if(numberToGuess == userGuess) {
+                if (numberToGuess == userGuess) {
                     System.out.println("Player 1: Your guess was correct");
                     guessed = true;
-                } else if(numberToGuess > userGuess) {
-                    if(userGuess > lowerBound) {
+                } else if (numberToGuess > userGuess) {
+                    if (userGuess > lowerBound) {
                         lowerBound = userGuess + 1;
                     }
 
                     System.out.println(feedbackHigher);
 
                 } else if (numberToGuess < userGuess) {
-                    if(userGuess < higherBound) {
+                    if (userGuess < higherBound) {
                         higherBound = userGuess - 1;
                     }
                     System.out.println(feedbackLower);
@@ -56,19 +58,16 @@ public class ZahlenRatenLevel3 {
             } else {
 
 
-
-
-
-                kiGuess = (lowerBound + higherBound)/2;
+                kiGuess = (lowerBound + higherBound) / 2;
                 listOfGuesses.add(kiGuess);
                 System.out.println("It's KI turn: " + kiGuess);
 
 
-                if(numberToGuess > kiGuess) {
-                        lowerBound = kiGuess + 1;
-                        System.out.println(feedbackHigher);
+                if (numberToGuess > kiGuess) {
+                    lowerBound = kiGuess + 1;
+                    System.out.println(feedbackHigher);
 
-                } else if (numberToGuess < kiGuess){
+                } else if (numberToGuess < kiGuess) {
                     higherBound = kiGuess - 1;
                     System.out.println(feedbackLower);
 
@@ -79,7 +78,6 @@ public class ZahlenRatenLevel3 {
                 }
 
 
-
             }
 
             playerTurn = !playerTurn;
@@ -88,6 +86,6 @@ public class ZahlenRatenLevel3 {
         }
 
 
-
     }
 }
+

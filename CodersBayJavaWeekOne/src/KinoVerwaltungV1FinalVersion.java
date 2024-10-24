@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class KinoVerwaltungV1test2 {
+public class KinoVerwaltungV1FinalVersion {
 
     public static void main(String[] args) {
         final int ticketPrice = 15;
@@ -111,7 +111,6 @@ public class KinoVerwaltungV1test2 {
 
                     } while (ticketCount > ticketAvailable || ticketCount <= 0 || totalTicketCost > userBudget);
 
-
                     //to add chosen Movies to the chosenMovies Arraylist
                     for (int i = 0; i < ticketCount; i++) {
                         chosenMovies.add(movieChoice);
@@ -134,7 +133,7 @@ public class KinoVerwaltungV1test2 {
             if (userBudget < ticketPrice) {
                 System.out.println("--------------------------------------------------------------");
                 System.out.println(" Sie haben nicht genug Guthaben für weiteren Einkauf.\n Vielen Dank für den Ticketkauf. Ticketverkauf endet.. ");
-                movieChoice = 0; // this will exit the ticketverkauf when the userbudget falls below the ticketPrice
+                movieChoice = 0; // this will exit the ticketverkauf
                 System.out.println("--------------------------------------------------------------");
             }
 
