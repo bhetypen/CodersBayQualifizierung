@@ -1,8 +1,7 @@
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
-public class MineSweeperV1Version1 {
+public class MineSweeperFinalVersion {
     public static void main(String[] args) {
         Random rand = new Random();
         Scanner sc = new Scanner(System.in);
