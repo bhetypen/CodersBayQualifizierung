@@ -1,6 +1,4 @@
-import java.sql.Array;
-
-public class GaudiMitArraysV2 {
+public class GaudiMitArraysV2FinalVersionChecked {
     public static void main(String[] args) {
 
         char [] myCharArray = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
